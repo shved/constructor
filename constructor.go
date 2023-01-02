@@ -79,6 +79,7 @@ func (b *Builder) QueryStringFromStruct(respStruct interface{}) string {
 		switch {
 		case len(v) == 0:
 			res.WriteString(k)
+			// Add delimiter if the field is not last.
 			if cnt < len(repr) {
 				res.WriteString(b.options.Delimiter)
 			}
@@ -87,10 +88,12 @@ func (b *Builder) QueryStringFromStruct(respStruct interface{}) string {
 				res.WriteString(k)
 				res.WriteString(b.options.FieldDelimiter)
 				res.WriteString(f)
+				// Add delimiter if the field is not last.
 				if cnt < len(repr) {
 					res.WriteString(b.options.Delimiter)
 				}
 
+				// Add delimiter if field is last, but the nested property isn't.
 				if cnt == len(repr) && i < len(v)-1 {
 					res.WriteString(b.options.Delimiter)
 				}
@@ -98,6 +101,7 @@ func (b *Builder) QueryStringFromStruct(respStruct interface{}) string {
 		}
 	}
 
+	// If nothing was added while iterating struct fields then just return empty string.
 	if res.Len() == len(b.options.ParamKey)+1 {
 		return ""
 	}
@@ -126,6 +130,7 @@ func structRepr(respStruct interface{}) map[string][]string {
 
 		repr[objName] = []string{}
 
+		// Check if the field is struct or slice of structs and add its fields to map key.
 		fKind := field.Type.Kind()
 		switch fKind {
 		case reflect.Struct:
