@@ -1,3 +1,3 @@
-module constructor
+module github.com/shved/constructor
 
-go 1.19
+go 1.20

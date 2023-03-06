@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"constructor"
+	"github.com/shved/constructor"
 )
 
 type ComplicatedObjectToFilter struct {
